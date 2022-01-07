@@ -176,10 +176,6 @@ export default {
     this.draw = SVG().addTo("#hyperspeed-container").size("100%", "100%");
     this.initializeHyperSpeed();
 
-    let self = this;
-    setTimeout(() => {
-      self.transactionCompleted = true;
-    }, 10000);
 
     window.addEventListener("keydown", (event) => {
       if (event.key == "e") {
@@ -196,6 +192,9 @@ export default {
         setTimeout(() => {
           self.initialAnimation();
         }, 500);
+        setTimeout(() => {
+          self.transactionCompleted = true;
+        }, 10000);
       } else {
         this.animate = false;
       }
