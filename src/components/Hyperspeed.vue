@@ -1,7 +1,12 @@
 <template>
   <div class="hyperspeed-container" id="hyperspeed-container">
     <transition name="fade" mode="out-in">
-      <processing v-show="hexagonFullScale" :isCompleted="isCompleted" :ETH="ETH" :LINK="LINK" />
+      <processing
+        v-show="hexagonFullScale"
+        :isCompleted="isCompleted"
+        :ETH="ETH"
+        :LINK="LINK"
+      />
     </transition>
   </div>
 </template>
@@ -128,17 +133,15 @@ export default {
       animate();
     },
     animateTransactionCompleted: function () {
-      console.log('completed!!')
+      console.log("completed!!");
       let loop = 1;
       let self = this;
 
       function animate() {
         self.hexagonArray.at(-loop).stroke({
-            width: 1,
-            color: `hsl(152, ${loop - 30}%, ${loop - 60}%)`,
-          });
-        
-
+          width: 1,
+          color: `hsl(152, ${loop - 30}%, ${loop - 60}%)`,
+        });
 
         // Start next frame
         loop += 1;
@@ -146,23 +149,21 @@ export default {
           requestAnimationFrame(animate);
         } else {
           self.isCompleted = true;
-          self.centerHexagon.fill('hsl(152,60%,70%)').stroke({width:0})
+          self.centerHexagon.fill("hsl(152,60%,70%)").stroke({ width: 0 });
         }
-
       }
- 
-      animate();
 
+      animate();
     },
     spawnHexagon: function (draw, loop) {
       let polygon = draw
         .polygon("300,150 225,280 75,280 0,150 75,20 225,20")
         .fill("none")
-        .stroke({ width: 1})
+        .stroke({ width: 1 })
         .move(this.centerX - 150, this.centerY - 150)
         .transform({ rotate: 90 })
         .scale(1 + loop / 15)
-        .rotate(loop* 1.618);
+        .rotate(loop * 1.618);
 
       polygon["spawnTime"] = loop;
 
@@ -174,6 +175,12 @@ export default {
     this.centerY = window.innerHeight / 2;
     this.draw = SVG().addTo("#hyperspeed-container").size("100%", "100%");
     this.initializeHyperSpeed();
+
+    let self = this;
+    setTimeout(() => {
+      self.transactionCompleted = true;
+    }, 10000);
+
     window.addEventListener("keydown", (event) => {
       if (event.key == "e") {
         this.transactionCompleted = true;
